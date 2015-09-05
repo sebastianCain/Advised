@@ -10,11 +10,15 @@
 		0A98C9FD1B9A97A700F05E63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A98C9FC1B9A97A700F05E63 /* main.m */; };
 		0A98CA001B9A97A700F05E63 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A98C9FF1B9A97A700F05E63 /* AppDelegate.m */; };
 		0A98CA031B9A97A700F05E63 /* Advised.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A98CA011B9A97A700F05E63 /* Advised.xcdatamodeld */; };
-		0A98CA061B9A97A700F05E63 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A98CA051B9A97A700F05E63 /* ViewController.m */; };
-		0A98CA091B9A97A700F05E63 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CA071B9A97A700F05E63 /* Main.storyboard */; };
 		0A98CA0B1B9A97A700F05E63 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CA0A1B9A97A700F05E63 /* Images.xcassets */; };
 		0A98CA0E1B9A97A700F05E63 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CA0C1B9A97A700F05E63 /* LaunchScreen.xib */; };
 		0A98CA1A1B9A97A700F05E63 /* AdvisedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A98CA191B9A97A700F05E63 /* AdvisedTests.m */; };
+		0A98CA281B9A97D000F05E63 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A98CA251B9A97D000F05E63 /* ViewController.m */; };
+		0A98CA291B9A97D000F05E63 /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A98CA271B9A97D000F05E63 /* GradientView.m */; };
+		0A98CA2E1B9A9CBF00F05E63 /* Panton-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CA2A1B9A9CBF00F05E63 /* Panton-Regular.otf */; };
+		0A98CA2F1B9A9CBF00F05E63 /* Panton-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CA2B1B9A9CBF00F05E63 /* Panton-ExtraLight.otf */; };
+		0A98CA301B9A9CBF00F05E63 /* Panton-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CA2C1B9A9CBF00F05E63 /* Panton-Light.otf */; };
+		0A98CA311B9A9CBF00F05E63 /* Panton-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CA2D1B9A9CBF00F05E63 /* Panton-Thin.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,14 +38,20 @@
 		0A98C9FE1B9A97A700F05E63 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0A98C9FF1B9A97A700F05E63 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0A98CA021B9A97A700F05E63 /* Advised.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Advised.xcdatamodel; sourceTree = "<group>"; };
-		0A98CA041B9A97A700F05E63 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		0A98CA051B9A97A700F05E63 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		0A98CA081B9A97A700F05E63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0A98CA0A1B9A97A700F05E63 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0A98CA0D1B9A97A700F05E63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		0A98CA131B9A97A700F05E63 /* AdvisedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdvisedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A98CA181B9A97A700F05E63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A98CA191B9A97A700F05E63 /* AdvisedTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdvisedTests.m; sourceTree = "<group>"; };
+		0A98CA231B9A97D000F05E63 /* UniversalHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniversalHeader.h; sourceTree = "<group>"; };
+		0A98CA241B9A97D000F05E63 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0A98CA251B9A97D000F05E63 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0A98CA261B9A97D000F05E63 /* GradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientView.h; sourceTree = "<group>"; };
+		0A98CA271B9A97D000F05E63 /* GradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientView.m; sourceTree = "<group>"; };
+		0A98CA2A1B9A9CBF00F05E63 /* Panton-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Panton-Regular.otf"; sourceTree = "<group>"; };
+		0A98CA2B1B9A9CBF00F05E63 /* Panton-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Panton-ExtraLight.otf"; sourceTree = "<group>"; };
+		0A98CA2C1B9A9CBF00F05E63 /* Panton-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Panton-Light.otf"; sourceTree = "<group>"; };
+		0A98CA2D1B9A9CBF00F05E63 /* Panton-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Panton-Thin.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,12 +95,15 @@
 			children = (
 				0A98C9FE1B9A97A700F05E63 /* AppDelegate.h */,
 				0A98C9FF1B9A97A700F05E63 /* AppDelegate.m */,
-				0A98CA041B9A97A700F05E63 /* ViewController.h */,
-				0A98CA051B9A97A700F05E63 /* ViewController.m */,
-				0A98CA071B9A97A700F05E63 /* Main.storyboard */,
+				0A98CA231B9A97D000F05E63 /* UniversalHeader.h */,
+				0A98CA241B9A97D000F05E63 /* ViewController.h */,
+				0A98CA251B9A97D000F05E63 /* ViewController.m */,
+				0A98CA261B9A97D000F05E63 /* GradientView.h */,
+				0A98CA271B9A97D000F05E63 /* GradientView.m */,
 				0A98CA0A1B9A97A700F05E63 /* Images.xcassets */,
 				0A98CA0C1B9A97A700F05E63 /* LaunchScreen.xib */,
 				0A98CA011B9A97A700F05E63 /* Advised.xcdatamodeld */,
+				0A98CA321B9A9CC700F05E63 /* Panton */,
 				0A98C9FA1B9A97A700F05E63 /* Supporting Files */,
 			);
 			path = Advised;
@@ -120,6 +133,17 @@
 				0A98CA181B9A97A700F05E63 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0A98CA321B9A9CC700F05E63 /* Panton */ = {
+			isa = PBXGroup;
+			children = (
+				0A98CA2A1B9A9CBF00F05E63 /* Panton-Regular.otf */,
+				0A98CA2B1B9A9CBF00F05E63 /* Panton-ExtraLight.otf */,
+				0A98CA2C1B9A9CBF00F05E63 /* Panton-Light.otf */,
+				0A98CA2D1B9A9CBF00F05E63 /* Panton-Thin.otf */,
+			);
+			name = Panton;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,9 +226,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A98CA091B9A97A700F05E63 /* Main.storyboard in Resources */,
+				0A98CA311B9A9CBF00F05E63 /* Panton-Thin.otf in Resources */,
 				0A98CA0E1B9A97A700F05E63 /* LaunchScreen.xib in Resources */,
+				0A98CA2F1B9A9CBF00F05E63 /* Panton-ExtraLight.otf in Resources */,
 				0A98CA0B1B9A97A700F05E63 /* Images.xcassets in Resources */,
+				0A98CA301B9A9CBF00F05E63 /* Panton-Light.otf in Resources */,
+				0A98CA2E1B9A9CBF00F05E63 /* Panton-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,9 +249,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A98CA291B9A97D000F05E63 /* GradientView.m in Sources */,
 				0A98CA001B9A97A700F05E63 /* AppDelegate.m in Sources */,
 				0A98CA031B9A97A700F05E63 /* Advised.xcdatamodeld in Sources */,
-				0A98CA061B9A97A700F05E63 /* ViewController.m in Sources */,
+				0A98CA281B9A97D000F05E63 /* ViewController.m in Sources */,
 				0A98C9FD1B9A97A700F05E63 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -248,14 +276,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		0A98CA071B9A97A700F05E63 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0A98CA081B9A97A700F05E63 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		0A98CA0C1B9A97A700F05E63 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
