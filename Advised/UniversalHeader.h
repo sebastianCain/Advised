@@ -9,8 +9,13 @@
 //#import "MainViewController.h"
 
 #import "GradientView.h"
+#import "PNChart.h"
+#import "DetailViewController.h"
+#import "Firm.h"
+#import "Advisor.h"
 
 #import <QuartzCore/QuartzCore.h>
+#import <CoreData/CoreData.h>
 
 #define WIDTH self.view.frame.size.width
 #define HEIGHT self.view.frame.size.height

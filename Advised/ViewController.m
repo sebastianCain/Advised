@@ -21,6 +21,10 @@
 	GradientView *gradientView = [[GradientView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
 	[self.view addSubview:gradientView];
 	
+	
+	[self initializeDatabaseFromHTTP];
+	
+	
 	UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 80)];
 	[title setFont:[UIFont fontWithName:@"Panton-Thin" size:42]];
 	[title setText:@"advised"];
@@ -57,11 +61,13 @@
 	self.trends = [[UIView alloc]initWithFrame:CGRectMake(WIDTH, 0, WIDTH, HEIGHT-130)];
 	[self.tabScrollView addSubview:self.trends];
 	
-	self.menuIndicator = [[UIView alloc]initWithFrame:CGRectMake(0, 130, WIDTH/2, 1)];
+	self.menuIndicator = [[UIView alloc]initWithFrame:CGRectMake(20, 80, WIDTH/2-40, 1)];
 	[self.menuIndicator setBackgroundColor:[UIColor colorWithWhite:1 alpha:.3]];
 	[self.menuIndicator setClipsToBounds:YES];
 	[self.view addSubview:self.menuIndicator];
 	
+	[self loadAdvisors];
+	[self loadTrends];
 	
 }
 
@@ -71,27 +77,135 @@
 	self.advisorsTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT-130) style:UITableViewStylePlain];
 	[self.advisorsTableView setDelegate:self];
 	[self.advisorsTableView setDataSource:self];
+	[self.advisorsTableView setBackgroundColor:[UIColor clearColor]];
+	[self.advisorsTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 	[self.advisors addSubview:self.advisorsTableView];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"advisor"];
 	
-	UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, cell.frame.size.width-80, cell.frame.size.height)];
+	NSLog(@"%ld", (long)indexPath.row);
+	Advisor *advisorObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	
+	UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"advisor"];
+	[cell setBackgroundColor:[UIColor clearColor]];
+	
+	UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, cell.frame.size.width-80, 60)];
 	[name setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:13]];
-	NSString *nameText = @"John Smith";//[NSString stringWithFormat:@""];
+	[name setTextColor:[UIColor whiteColor]];
+	NSString *nameText = advisorObject.name;
 	[name setText:nameText];
 	[name setTextAlignment:NSTextAlignmentLeft];
 	[cell addSubview:name];
 	
-	UILabel *risk = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, cell.frame.size.width-80, cell.frame.size.height)];
+	UILabel *risk = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, cell.frame.size.width-80, 60)];
 	[risk setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:13]];
-	NSString *riskText = @"HIGH RISK";//[NSString stringWithFormat:@""];
+	[risk setTextColor:[UIColor whiteColor]];
+	NSString *riskText = [advisorObject.riskValue stringValue];
 	[risk setText:riskText];
 	[risk setTextAlignment:NSTextAlignmentRight];
 	[cell addSubview:risk];
 	
+	UIView *betterSeperator = [[UIView alloc]initWithFrame:CGRectMake(20, 59, WIDTH-40, 1)];
+	[betterSeperator setBackgroundColor:[UIColor colorWithWhite:1 alpha:.3]];
+	[betterSeperator setClipsToBounds:YES];
+	[cell addSubview:betterSeperator];
+	
 	return cell;
+}
+
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return 60;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//	id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][0];
+//	return [sectionInfo numberOfObjects];
+	return 100;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	DetailViewController *dvc = [[DetailViewController alloc]init];
+	dvc.advisor = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	dvc.index = indexPath.row;
+	[self presentViewController:dvc animated:YES completion:nil];
+}
+
+#pragma mark - CoreData Methods
+
+- (NSFetchedResultsController *)fetchedResultsController
+{
+	if (_fetchedResultsController != nil) {
+		return _fetchedResultsController;
+	}
+	
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	// Edit the entity name as appropriate.
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Advisor" inManagedObjectContext:self.managedObjectContext];
+	[fetchRequest setEntity:entity];
+	
+	// Set the batch size to a suitable number.
+	[fetchRequest setFetchBatchSize:20];
+	
+	// Edit the sort key as appropriate.
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
+	NSArray *sortDescriptors = @[sortDescriptor];
+	
+	[fetchRequest setSortDescriptors:sortDescriptors];
+	
+	// Edit the section name key path and cache name if appropriate.
+	// nil for section name key path means "no sections".
+	NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"lmao"];
+	aFetchedResultsController.delegate = self;
+	self.fetchedResultsController = aFetchedResultsController;
+	
+	NSError *error = nil;
+	if (![self.fetchedResultsController performFetch:&error]) {
+		// Replace this implementation with code to handle the error appropriately.
+		// abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		abort();
+	}
+	
+	return _fetchedResultsController;
+}
+
+- (void)initializeDatabaseFromXML {
+	
+}
+
+- (void)initializeDatabaseFromHTTP {
+	
+	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"100feed" ofType:@"json"];
+	NSData *data = [NSData dataWithContentsOfFile:filePath];
+//	NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//	NSLog(@"%@",string);
+	NSError *err = [[NSError alloc] init];
+	NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&err];
+	
+	NSArray *advisors = [json valueForKey:@"adviserArray"];
+	
+	NSLog(@"looping through advisors");
+	
+	for (NSDictionary *i in advisors) {
+		Advisor *newAdvisor = [NSEntityDescription insertNewObjectForEntityForName:@"Advisor" inManagedObjectContext:self.managedObjectContext];
+		
+		newAdvisor.name = [[[i valueForKey:@"firstNm"] stringByAppendingString:@" "] stringByAppendingString: [i valueForKey:@"lastNm"]];
+		newAdvisor.riskValue = [i valueForKey:@"risk"];
+		newAdvisor.riskPercent =[i valueForKey:@"riskPercent"];
+		newAdvisor.currentFirm = [i valueForKey:@"orgNm"];
+		newAdvisor.drp = [NSKeyedArchiver archivedDataWithRootObject:[i valueForKey:@"DRP"]];
+		newAdvisor.workHistory = [NSKeyedArchiver archivedDataWithRootObject:[i valueForKey:@"EmpHs"]];
+		
+	}
+	
+	[self.managedObjectContext save:nil];
+	
+	NSLog(@"finished saving");
+	
+	[self.advisorsTableView reloadData];
 }
 
 #pragma mark - Trends
@@ -111,7 +225,7 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	[self.menuIndicator.layer setPosition:CGPointMake(self.tabScrollView.contentOffset.x/2+WIDTH/4, 130)];
+	[self.menuIndicator.layer setPosition:CGPointMake(self.tabScrollView.contentOffset.x/2+WIDTH/4, 80)];
 	[self.menuIndicator setNeedsDisplay];
 }
 

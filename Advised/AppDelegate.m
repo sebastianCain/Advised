@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "IntroViewController.h"
 
 @interface AppDelegate ()
 
@@ -23,7 +24,10 @@
 	
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 	
-	[self.window setRootViewController:[[ViewController alloc]init]];
+	
+	ViewController *vc = [[ViewController alloc] init];
+	vc.managedObjectContext = self.managedObjectContext;
+	[self.window setRootViewController:vc];
 	[self.window makeKeyAndVisible];
 	
 	return YES;
