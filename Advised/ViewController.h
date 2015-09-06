@@ -9,10 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "UniversalHeader.h"
 
-@interface ViewController : UIViewController <UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
+@interface ViewController : UIViewController <UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
+@property UISearchController *resultSearchController;
+@property NSMutableArray *filteredResults;
+@property NSArray *allAdvisors;
 
 @property UIScrollView *tabScrollView;
 @property UIView *menuIndicator;

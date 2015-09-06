@@ -28,6 +28,20 @@
 		NSLog(@"loaded");
 	}
 	
+	UIButton *searchButton = [[UIButton alloc] initWithFrame:CGRectMake(WIDTH-50, 10, 40, 40)];
+	[searchButton setBackgroundImage:[UIImage imageNamed:@"search-icon"] forState:UIControlStateNormal];
+	[self.view addSubview:searchButton];
+	
+	self.resultSearchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+	[self.resultSearchController setDelegate:self];
+	[self.resultSearchController setSearchResultsUpdater:self];
+	[self.resultSearchController setDimsBackgroundDuringPresentation:NO];
+	[self.resultSearchController.searchBar setFrame:CGRectMake(0, 0, WIDTH, 40)];
+	[self.resultSearchController.searchBar setDelegate:self];
+	[self.view addSubview:self.resultSearchController.searchBar];
+	[self.advisorsTableView reloadData];
+	
+	
 	UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 80)];
 	[title setFont:[UIFont fontWithName:@"Panton-Thin" size:42]];
 	[title setText:@"advised"];
@@ -135,7 +149,12 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	NSLog(@"%ld", (long)indexPath.row);
-	Advisor *advisorObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	Advisor *advisorObject = [[Advisor alloc] initWithEntity:[NSEntityDescription entityForName:@"Advisor" inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
+	if (self.resultSearchController.active) {
+		advisorObject = self.filteredResults[indexPath.row];
+	} else {
+		advisorObject = self.fetchedResultsController.fetchedObjects[indexPath.row];
+	}
 	
 	UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"advisor"];
 	[cell setBackgroundColor:[UIColor clearColor]];
@@ -185,12 +204,21 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //	id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][0];
 //	return [sectionInfo numberOfObjects];
-	return 100;
+	if (self.resultSearchController.active) {
+		return [self.filteredResults count];
+	} else {
+		return 100;
+	}
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	DetailViewController *dvc = [[DetailViewController alloc]init];
-	dvc.advisor = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	if (self.resultSearchController.active) {
+		dvc.advisor = [self.filteredResults objectAtIndex:indexPath.row];
+	} else {
+		dvc.advisor = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	}
+	
 	dvc.index = indexPath.row;
 	dvc.scatterPlot = self.scatterPlot;
 	[self.advisorsTableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -294,6 +322,14 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
 	[self.menuIndicator.layer setPosition:CGPointMake(self.tabScrollView.contentOffset.x/2+WIDTH/4, 80)];
 	[self.menuIndicator setNeedsDisplay];
+}
+
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+	[self.filteredResults removeAllObjects];
+	NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchController.searchBar.text];
+	NSArray *array = [self.fetchedResultsController.fetchedObjects filteredArrayUsingPredicate:searchPredicate];
+	self.filteredResults = [NSMutableArray arrayWithArray:array];
+	[self.advisorsTableView reloadData];
 }
 
 
