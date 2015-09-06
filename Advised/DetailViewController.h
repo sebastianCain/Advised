@@ -23,5 +23,6 @@
 @property BOOL fouthLineHasAnimated;
 @property PNScatterChart *scatterPlot;
 
+@property PNCircleChart *secondCircle;
 
 @end

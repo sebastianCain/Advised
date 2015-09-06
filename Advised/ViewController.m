@@ -33,14 +33,17 @@
 	[self.view addSubview:searchButton];
 	
 	self.resultSearchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+	[self.resultSearchController.searchBar setBackgroundColor:[UIColor redColor]];
 	[self.resultSearchController setDelegate:self];
 	[self.resultSearchController setSearchResultsUpdater:self];
 	[self.resultSearchController setDimsBackgroundDuringPresentation:NO];
 	[self.resultSearchController.searchBar setFrame:CGRectMake(0, 0, WIDTH, 40)];
 	[self.resultSearchController.searchBar setDelegate:self];
-	[self.view addSubview:self.resultSearchController.searchBar];
+
+	self.advisorsTableView.tableHeaderView = self.resultSearchController.searchBar;
 	[self.advisorsTableView reloadData];
-	
+	[self.advisorsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+
 	
 	UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 80)];
 	[title setFont:[UIFont fontWithName:@"Panton-Thin" size:42]];
@@ -144,6 +147,10 @@
 	[self.advisorsTableView setBackgroundColor:[UIColor clearColor]];
 	[self.advisorsTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 	[self.advisors addSubview:self.advisorsTableView];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+	return 50;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
