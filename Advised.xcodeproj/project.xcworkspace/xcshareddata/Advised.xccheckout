@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>BA2D4029-4F91-46A0-9B56-8B301265EEFB</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Advised</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>5CA863653A8243BA916AE34B61AD9357A6D589CB</key>
 		<string>https://github.com/sebastianCain/Advised.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Advised.xcodeproj/project.xcworkspace</string>
+	<string>Advised.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>5CA863653A8243BA916AE34B61AD9357A6D589CB</key>

@@ -28,8 +28,9 @@
 		NSLog(@"loaded");
 	}
 	
-	UIButton *searchButton = [[UIButton alloc] initWithFrame:CGRectMake(WIDTH-50, 10, 40, 40)];
+	UIButton *searchButton = [[UIButton alloc] initWithFrame:CGRectMake(WIDTH-50, 25, 30, 30)];
 	[searchButton setBackgroundImage:[UIImage imageNamed:@"search-icon"] forState:UIControlStateNormal];
+	[searchButton addTarget:self action:@selector(searchButtonTapped) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:searchButton];
 	
 	self.resultSearchController = [[UISearchController alloc] initWithSearchResultsController:nil];
@@ -37,10 +38,11 @@
 	[self.resultSearchController setDelegate:self];
 	[self.resultSearchController setSearchResultsUpdater:self];
 	[self.resultSearchController setDimsBackgroundDuringPresentation:NO];
-	[self.resultSearchController.searchBar setFrame:CGRectMake(0, 0, WIDTH, 40)];
+	[self.resultSearchController.searchBar setFrame:CGRectMake(0, -40, WIDTH, 40)];
 	[self.resultSearchController.searchBar setDelegate:self];
 
-	self.advisorsTableView.tableHeaderView = self.resultSearchController.searchBar;
+	[self.view addSubview:self.resultSearchController.searchBar];
+//	self.advisorsTableView.tableHeaderView = self.resultSearchController.searchBar;
 	[self.advisorsTableView reloadData];
 	[self.advisorsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 
@@ -63,7 +65,7 @@
 	UIButton *trendsButton = [[UIButton alloc]initWithFrame:CGRectMake(WIDTH/2, 80, WIDTH/2, 50)];
 	[trendsButton.titleLabel setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:13]];
 	[trendsButton.titleLabel setTextColor:[UIColor whiteColor]];
-	[trendsButton setTitle:@"TRENDS" forState:UIControlStateNormal];
+	[trendsButton setTitle:@"FIRMS" forState:UIControlStateNormal];
 	[trendsButton addTarget:self action:@selector(trendsTapped) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:trendsButton];
 	
@@ -150,7 +152,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 50;
+	return 0;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -228,6 +230,11 @@
 	
 	dvc.index = indexPath.row;
 	dvc.scatterPlot = self.scatterPlot;
+	[self.resultSearchController.searchBar endEditing:YES];
+	[self.resultSearchController setActive:NO];
+	[UIView animateWithDuration:0.3f animations:^{
+		[self.resultSearchController.searchBar setFrame:CGRectMake(0, -40, WIDTH, 40)];
+	}];
 	[self.advisorsTableView deselectRowAtIndexPath:indexPath animated:YES];
 	[self.navigationController pushViewController:dvc animated:YES];
 }
@@ -337,6 +344,30 @@
 	NSArray *array = [self.fetchedResultsController.fetchedObjects filteredArrayUsingPredicate:searchPredicate];
 	self.filteredResults = [NSMutableArray arrayWithArray:array];
 	[self.advisorsTableView reloadData];
+}
+
+-(BOOL)searchBarDidEndEditing:(UISearchBar *)searchBar {
+	[UIView animateWithDuration:0.3f animations:^{
+		[self.resultSearchController.searchBar setFrame:CGRectMake(0, -40, WIDTH, 40)];
+	}];
+	return NO;
+}
+
+-(void)didDismissSearchController:(UISearchController *)searchController {
+	[UIView animateWithDuration:0.3f animations:^{
+		[self.resultSearchController.searchBar setFrame:CGRectMake(0, -40, WIDTH, 40)];
+	}];
+}
+
+-(void)searchButtonTapped {
+	[UIView animateWithDuration:0.3f animations:^{
+		[self.resultSearchController.searchBar setFrame:CGRectMake(0, 0, WIDTH, 40)];
+	} completion:^(BOOL finished) {
+		[self.resultSearchController setActive:YES];
+		[self.resultSearchController setEditing:YES animated:YES];
+		[self.resultSearchController.searchBar becomeFirstResponder];
+	}];
+	[self.resultSearchController.searchBar becomeFirstResponder];
 }
 
 
