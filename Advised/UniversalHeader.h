@@ -13,7 +13,8 @@
 #import "DetailViewController.h"
 #import "Firm.h"
 #import "Advisor.h"
-#import "UILabel+DrawAnimation.h"
+#import "UILabel+DrawAnimation.h""
+#import "DetailFirmViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
 #import <CoreData/CoreData.h>

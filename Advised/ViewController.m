@@ -25,8 +25,12 @@
 		NSLog(@"saved space");
 	} else {
 		[self initializeDatabaseFromHTTP];
+		
+		
 		NSLog(@"loaded");
 	}
+	
+	[self initializeFirm];
 	
 	UIButton *searchButton = [[UIButton alloc] initWithFrame:CGRectMake(WIDTH-50, 25, 30, 30)];
 	[searchButton setBackgroundImage:[UIImage imageNamed:@"search-icon"] forState:UIControlStateNormal];
@@ -80,17 +84,29 @@
 	self.advisors = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT-130)];
 	[self.tabScrollView addSubview:self.advisors];
 	
-	self.trends = [[UIView alloc]initWithFrame:CGRectMake(WIDTH, 0, WIDTH, HEIGHT-130)];
-	[self.tabScrollView addSubview:self.trends];
+	self.firmView = [[UIView alloc]initWithFrame:CGRectMake(WIDTH, 0, WIDTH, HEIGHT-130)];
+	[self.tabScrollView addSubview:self.firmView];
 	
 	self.menuIndicator = [[UIView alloc]initWithFrame:CGRectMake(20, 80, WIDTH/2-40, 1)];
 	[self.menuIndicator setBackgroundColor:[UIColor colorWithWhite:1 alpha:.3]];
 	[self.menuIndicator setClipsToBounds:YES];
 	[self.view addSubview:self.menuIndicator];
 	
+	self.firmsTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT-130) style:UITableViewStylePlain];
+	[self.firmsTableView setDelegate:self];
+	[self.firmsTableView setDataSource:self];
+	[self.firmsTableView setBackgroundColor:[UIColor clearColor]];
+	[self.firmsTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+	[self.firmView addSubview:self.firmsTableView];
+	
 	[self loadAdvisors];
 	[self loadTrends];
 	
+	NSMutableArray *arr = [[NSMutableArray alloc] init];
+	for (NSDictionary *firm in self.firms) {
+		[arr addObject:[firm valueForKey:@"firmName"]];
+	}
+	self.firmNames = [arr copy];
 	
 	//+++++++++++++++++++++++++++++++++++++++ SCATTER PLOT
 	
@@ -158,43 +174,82 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	NSLog(@"%ld", (long)indexPath.row);
-	Advisor *advisorObject = [[Advisor alloc] initWithEntity:[NSEntityDescription entityForName:@"Advisor" inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
-	if (self.resultSearchController.active) {
-		advisorObject = self.filteredResults[indexPath.row];
-	} else {
-		advisorObject = self.fetchedResultsController.fetchedObjects[indexPath.row];
-	}
-	
 	UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"advisor"];
 	[cell setBackgroundColor:[UIColor clearColor]];
 	
-	UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, cell.frame.size.width-80, 60)];
-	[name setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:13]];
-	[name setTextColor:[UIColor whiteColor]];
-	NSString *nameText = advisorObject.name;
-	[name setText:nameText];
-	[name setTextAlignment:NSTextAlignmentLeft];
-	[cell addSubview:name];
-	
-	UILabel *risk = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, cell.frame.size.width-80, 60)];
-	[risk setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:13]];
-	NSString *riskText;
-	if ([advisorObject.riskPercent floatValue] < .25) {
-		[risk setTextColor:[UIColor greenColor]];
-		riskText = @"VERY SAFE";
-	} else if ([advisorObject.riskPercent floatValue] < .5) {
-		[risk setTextColor:[UIColor greenColor]];
-		riskText = @"SAFE";
-	} else if ([advisorObject.riskPercent floatValue] < .75) {
-		[risk setTextColor:[UIColor redColor]];
-		riskText = @"RISKY";
+	if (tableView == self.advisorsTableView) {
+		Advisor *advisorObject = [[Advisor alloc] initWithEntity:[NSEntityDescription entityForName:@"Advisor" inManagedObjectContext:self.managedObjectContext] insertIntoManagedObjectContext:self.managedObjectContext];
+		if (self.resultSearchController.active) {
+			advisorObject = self.filteredResults[indexPath.row];
+		} else {
+			advisorObject = self.fetchedResultsController.fetchedObjects[indexPath.row];
+		}
+		
+		
+		UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, cell.frame.size.width-80, 60)];
+		[name setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:13]];
+		[name setTextColor:[UIColor whiteColor]];
+		NSString *nameText = advisorObject.name;
+		[name setText:nameText];
+		[name setTextAlignment:NSTextAlignmentLeft];
+		[cell addSubview:name];
+		
+		UILabel *risk = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, cell.frame.size.width-80, 60)];
+		[risk setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:13]];
+		NSString *riskText;
+		if ([advisorObject.riskPercent floatValue] < .25) {
+			[risk setTextColor:[UIColor greenColor]];
+			riskText = @"VERY SAFE";
+		} else if ([advisorObject.riskPercent floatValue] < .5) {
+			[risk setTextColor:[UIColor greenColor]];
+			riskText = @"SAFE";
+		} else if ([advisorObject.riskPercent floatValue] < .75) {
+			[risk setTextColor:[UIColor redColor]];
+			riskText = @"RISKY";
+		} else {
+			[risk setTextColor:[UIColor redColor]];
+			riskText = @"HIGH RISK";
+		}
+		[risk setText:riskText];
+		[risk setTextAlignment:NSTextAlignmentRight];
+		[cell addSubview:risk];
+		
+		
+		
+		
 	} else {
-		[risk setTextColor:[UIColor redColor]];
-		riskText = @"HIGH RISK";
+		NSDictionary *firm = [self.firms objectAtIndex:indexPath.row];
+		
+		UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(30, 0, cell.frame.size.width-110, 60)];
+		[name setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:12]];
+		[name setTextColor:[UIColor whiteColor]];
+		NSString *nameText = [firm valueForKey:@"firmName"];
+		[name setText:nameText];
+		[name setTextAlignment:NSTextAlignmentLeft];
+		[cell addSubview:name];
+		
+		UILabel *risk = [[UILabel alloc]initWithFrame:CGRectMake(45, 0, cell.frame.size.width-80, 60)];
+		[risk setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:12]];
+		NSString *riskText;
+		if ([[firm valueForKey:@"avgRisk"] floatValue] < .25) {
+			[risk setTextColor:[UIColor greenColor]];
+			riskText = @"VERY SAFE";
+		} else if ([[firm valueForKey:@"avgRisk"] floatValue] < .5) {
+			[risk setTextColor:[UIColor greenColor]];
+			riskText = @"SAFE";
+		} else if ([[firm valueForKey:@"avgRisk"] floatValue] < .75) {
+			[risk setTextColor:[UIColor redColor]];
+			riskText = @"RISKY";
+		} else {
+			[risk setTextColor:[UIColor redColor]];
+			riskText = @"HIGH RISK";
+		}
+		[risk setText:riskText];
+		[risk setTextAlignment:NSTextAlignmentRight];
+		[cell addSubview:risk];
+		
 	}
-	[risk setText:riskText];
-	[risk setTextAlignment:NSTextAlignmentRight];
-	[cell addSubview:risk];
+	
 	
 	UIView *betterSeperator = [[UIView alloc]initWithFrame:CGRectMake(20, 59, WIDTH-40, 1)];
 	[betterSeperator setBackgroundColor:[UIColor colorWithWhite:1 alpha:.3]];
@@ -213,30 +268,58 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //	id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][0];
 //	return [sectionInfo numberOfObjects];
-	if (self.resultSearchController.active) {
-		return [self.filteredResults count];
+	if (tableView == self.advisorsTableView) {
+		if (self.resultSearchController.active) {
+			return [self.filteredResults count];
+		} else {
+			return 100;
+		}
 	} else {
-		return 100;
+		if (self.resultSearchController.active) {
+			return [self.filteredResults count];
+		} else {
+			return 29;
+		}
 	}
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	DetailViewController *dvc = [[DetailViewController alloc]init];
-	if (self.resultSearchController.active) {
-		dvc.advisor = [self.filteredResults objectAtIndex:indexPath.row];
+	if (tableView == self.advisorsTableView) {
+		DetailViewController *dvc = [[DetailViewController alloc]init];
+		if (self.resultSearchController.active) {
+			dvc.advisor = [self.filteredResults objectAtIndex:indexPath.row];
+		} else {
+			dvc.advisor = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		}
+		
+		dvc.index = indexPath.row;
+		dvc.scatterPlot = self.scatterPlot;
+		[self.resultSearchController.searchBar endEditing:YES];
+		[self.resultSearchController setActive:NO];
+		[UIView animateWithDuration:0.3f animations:^{
+			[self.resultSearchController.searchBar setFrame:CGRectMake(0, -40, WIDTH, 40)];
+		}];
+		[self.advisorsTableView deselectRowAtIndexPath:indexPath animated:YES];
+		[self.navigationController pushViewController:dvc animated:YES];
 	} else {
-		dvc.advisor = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		DetailFirmViewController *dvc = [[DetailFirmViewController alloc]init];
+		if (self.resultSearchController.active) {
+			for (NSDictionary *f in self.firms) {
+				if ([f valueForKey:@"firmName"] == self.filteredResults[indexPath.row]) {
+					dvc.firmData = f;
+				}
+			}
+		} else {
+			dvc.firmData = self.firms[indexPath.row];
+		}
+		[self.resultSearchController.searchBar endEditing:YES];
+		[self.resultSearchController setActive:NO];
+		[UIView animateWithDuration:0.3f animations:^{
+			[self.resultSearchController.searchBar setFrame:CGRectMake(0, -40, WIDTH, 40)];
+		}];
+		[self.firmsTableView deselectRowAtIndexPath:indexPath animated:YES];
+		[self.navigationController pushViewController:dvc animated:YES];
 	}
-	
-	dvc.index = indexPath.row;
-	dvc.scatterPlot = self.scatterPlot;
-	[self.resultSearchController.searchBar endEditing:YES];
-	[self.resultSearchController setActive:NO];
-	[UIView animateWithDuration:0.3f animations:^{
-		[self.resultSearchController.searchBar setFrame:CGRectMake(0, -40, WIDTH, 40)];
-	}];
-	[self.advisorsTableView deselectRowAtIndexPath:indexPath animated:YES];
-	[self.navigationController pushViewController:dvc animated:YES];
 }
 
 #pragma mark - CoreData Methods
@@ -278,7 +361,16 @@
 	return _fetchedResultsController;
 }
 
-- (void)initializeDatabaseFromXML {
+- (void)initializeFirm {
+	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"firmfeed" ofType:@"json"];
+	NSData *data = [NSData dataWithContentsOfFile:filePath];
+	//	NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	//	NSLog(@"%@",string);
+	NSError *err = [[NSError alloc] init];
+	NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&err];
+
+	self.firms = [json valueForKey:@"firmArray"];
+	
 	
 }
 
@@ -339,11 +431,20 @@
 }
 
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-	[self.filteredResults removeAllObjects];
-	NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchController.searchBar.text];
-	NSArray *array = [self.fetchedResultsController.fetchedObjects filteredArrayUsingPredicate:searchPredicate];
-	self.filteredResults = [NSMutableArray arrayWithArray:array];
-	[self.advisorsTableView reloadData];
+	if (self.tabScrollView.contentOffset.x == 0.0) {
+		[self.filteredResults removeAllObjects];
+		NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchController.searchBar.text];
+		NSArray *array = [self.fetchedResultsController.fetchedObjects filteredArrayUsingPredicate:searchPredicate];
+		self.filteredResults = [NSMutableArray arrayWithArray:array];
+		[self.advisorsTableView reloadData];
+	} else {
+		[self.filteredResults removeAllObjects];
+		NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"self contains[cd] %@", searchController.searchBar.text];
+		NSArray *array = [self.firmNames filteredArrayUsingPredicate:searchPredicate];
+		self.filteredResults = [NSMutableArray arrayWithArray:array];
+		[self.advisorsTableView reloadData];
+	}
+	
 }
 
 -(BOOL)searchBarDidEndEditing:(UISearchBar *)searchBar {

@@ -24,8 +24,14 @@
 @property UIView *advisors;
 @property UITableView *advisorsTableView;
 
+@property UITableView *firmsTableView;
+
 @property UIView *trends;
 @property UIView *trendsScrollView;
+
+@property NSArray *firms;
+@property NSArray *firmNames;
+@property UIView *firmView;
 
 @property PNScatterChart *scatterPlot;
 
