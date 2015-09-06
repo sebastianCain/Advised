@@ -23,41 +23,88 @@
 	GradientView *gradientView = [[GradientView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
 	[self.view addSubview:gradientView];
 	
+	NSLog(@"%@", self.advisor);
+	
+	UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
+	[back setFrame:CGRectMake(0, 0, 80, 80)];
+	UIImage *backImage = [UIImage imageNamed:@"back"];
+	[back setImage:backImage forState:UIControlStateNormal];
+	[back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:back];
+	
 	UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 80)];
-	[title setFont:[UIFont fontWithName:@"Panton-Thin" size:24]];
-	[title setText:@"John Smith"];
+	[title setFont:[UIFont fontWithName:@"Panton-Thin" size:20]];
+	[title setText:self.advisor.name];
 	[title setTextColor:[UIColor whiteColor]];
 	[title setCenter:CGPointMake(WIDTH/2, 40)];
 	[title setTextAlignment:NSTextAlignmentCenter];
 	[self.view addSubview:title];
 	
-	//For Line Chart
-	PNLineChart * lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
-	[lineChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
+	self.content = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 80, WIDTH, HEIGHT-80)];
+	[self.content setContentSize:CGSizeMake(WIDTH, HEIGHT*2)];
+	[self.view addSubview:self.content];
 	
-	[self.view addSubview:lineChart];
+	UILabel *currentPosition = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 50)];
+	[currentPosition setFont:[UIFont fontWithName:@"Panton-Thin" size:20]];
+	if (self.advisor.currentFirm != nil) {
+		[currentPosition setText:[@"Currently At " stringByAppendingString:self.advisor.currentFirm]];
+	}
+	[currentPosition setTextAlignment:NSTextAlignmentCenter];
+	[currentPosition setTextColor:[UIColor whiteColor]];
+	[self.content addSubview:currentPosition];
 	
-	// Line Chart No.1
-	NSArray * data01Array = @[@60.1, @160.1, @126.4, @262.2, @186.2];
-	PNLineChartData *data01 = [PNLineChartData new];
-	data01.color = PNFreshGreen;
-	data01.itemCount = lineChart.xLabels.count;
-	data01.getData = ^(NSUInteger index) {
-		CGFloat yValue = [data01Array[index] floatValue];
-		return [PNLineChartDataItem dataItemWithY:yValue];
-	};
-	// Line Chart No.2
-	NSArray * data02Array = @[@20.1, @180.1, @26.4, @202.2, @126.2];
-	PNLineChartData *data02 = [PNLineChartData new];
-	data02.color = PNTwitterColor;
-	data02.itemCount = lineChart.xLabels.count;
-	data02.getData = ^(NSUInteger index) {
-		CGFloat yValue = [data02Array[index] floatValue];
-		return [PNLineChartDataItem dataItemWithY:yValue];
-	};
+	UILabel *workHistoryLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 50)];
+	[workHistoryLabel setFont:[UIFont fontWithName:@"Panton-Thin" size:20]];
+	[workHistoryLabel setText:@"Has worked at:"];
+	[workHistoryLabel setTextAlignment:NSTextAlignmentCenter];
+	[workHistoryLabel setTextColor:[UIColor whiteColor]];
+	[self.content addSubview:workHistoryLabel];
 	
-	lineChart.chartData = @[data01, data02];
-	[lineChart strokeChart];
+	self.left = YES;
+	
+	NSArray *workHistory = (NSArray *)[NSKeyedUnarchiver unarchiveObjectWithData:self.advisor.workHistory];
+	
+	NSMutableArray *times = [[NSMutableArray alloc]init];
+	NSMutableArray *descriptions = [[NSMutableArray alloc]init];
+	for (NSDictionary *i in workHistory) {
+		if (self.left) {
+			[times addObject:[i objectForKey:@"fromDt"]];
+			[descriptions addObject:[i objectForKey:@"orgNm"]];
+			self.left = NO;
+		} else {
+			[descriptions addObject:[i objectForKey:@"fromDt"]];
+			[times addObject:[i objectForKey:@"orgNm"]];
+			self.left = YES;
+		}
+	}
+	TimelineView *timeline = [[TimelineView alloc] initWithTimeArray:(NSArray *)times andTimeDescriptionArray:(NSArray *)descriptions andCurrentStatus:0 andFrame:CGRectMake(0, 75, WIDTH, 150)];
+	
+	[self.content addSubview:timeline];
+	
+	UILabel *calcRiskTitle = [[UILabel alloc]initWithFrame:CGRectMake(0, HEIGHT-50, WIDTH, 50)];
+	[calcRiskTitle setFont:[UIFont fontWithName:@"Panton-Thin" size:20]];
+	[calcRiskTitle setText:@"Comparative Risk Analysis"];
+	[calcRiskTitle setTextAlignment:NSTextAlignmentCenter];
+	[calcRiskTitle setTextColor:[UIColor whiteColor]];
+	[self.content addSubview:calcRiskTitle];
+	
+	PNCircleChart *calcRisk = [[PNCircleChart alloc] initWithFrame:CGRectMake(WIDTH/2-75, HEIGHT, 150, 150)
+																	   total:[NSNumber numberWithInt:100]
+																	 current:[NSNumber numberWithInt:([self.advisor.riskPercent floatValue]*100)]
+																   clockwise:YES
+																	  shadow:YES
+																 shadowColor:[UIColor clearColor]
+														displayCountingLabel:YES
+														   overrideLineWidth:[NSNumber numberWithInt:1]];
+	calcRisk.backgroundColor = [UIColor clearColor];
+	[calcRisk setStrokeColor:[UIColor whiteColor]];
+	[self.content addSubview:calcRisk];
+	[calcRisk strokeChart];
+}
+
+
+-(void)back {
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

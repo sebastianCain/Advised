@@ -21,9 +21,12 @@
 	GradientView *gradientView = [[GradientView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
 	[self.view addSubview:gradientView];
 	
-	
-	[self initializeDatabaseFromHTTP];
-	
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"loaded"] == YES) {
+		NSLog(@"saved space");
+	} else {
+		[self initializeDatabaseFromHTTP];
+		NSLog(@"loaded");
+	}
 	
 	UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 80)];
 	[title setFont:[UIFont fontWithName:@"Panton-Thin" size:42]];
@@ -100,8 +103,20 @@
 	
 	UILabel *risk = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, cell.frame.size.width-80, 60)];
 	[risk setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:13]];
-	[risk setTextColor:[UIColor whiteColor]];
-	NSString *riskText = [advisorObject.riskValue stringValue];
+	NSString *riskText;
+	if ([advisorObject.riskPercent floatValue] < .25) {
+		[risk setTextColor:[UIColor greenColor]];
+		riskText = @"VERY SAFE";
+	} else if ([advisorObject.riskPercent floatValue] < .5) {
+		[risk setTextColor:[UIColor greenColor]];
+		riskText = @"SAFE";
+	} else if ([advisorObject.riskPercent floatValue] < .75) {
+		[risk setTextColor:[UIColor redColor]];
+		riskText = @"RISKY";
+	} else {
+		[risk setTextColor:[UIColor redColor]];
+		riskText = @"HIGH RISK";
+	}
 	[risk setText:riskText];
 	[risk setTextAlignment:NSTextAlignmentRight];
 	[cell addSubview:risk];
@@ -130,7 +145,8 @@
 	DetailViewController *dvc = [[DetailViewController alloc]init];
 	dvc.advisor = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	dvc.index = indexPath.row;
-	[self presentViewController:dvc animated:YES completion:nil];
+	[self.advisorsTableView deselectRowAtIndexPath:indexPath animated:YES];
+	[self.navigationController pushViewController:dvc animated:YES];
 }
 
 #pragma mark - CoreData Methods
@@ -150,7 +166,7 @@
 	[fetchRequest setFetchBatchSize:20];
 	
 	// Edit the sort key as appropriate.
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO];
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
 	NSArray *sortDescriptors = @[sortDescriptor];
 	
 	[fetchRequest setSortDescriptors:sortDescriptors];
@@ -178,7 +194,9 @@
 
 - (void)initializeDatabaseFromHTTP {
 	
-	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"100feed" ofType:@"json"];
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"loaded"];
+	
+	NSString *filePath = [[NSBundle mainBundle] pathForResource:@"new100feed" ofType:@"json"];
 	NSData *data = [NSData dataWithContentsOfFile:filePath];
 //	NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 //	NSLog(@"%@",string);
@@ -195,7 +213,7 @@
 		newAdvisor.name = [[[i valueForKey:@"firstNm"] stringByAppendingString:@" "] stringByAppendingString: [i valueForKey:@"lastNm"]];
 		newAdvisor.riskValue = [i valueForKey:@"risk"];
 		newAdvisor.riskPercent =[i valueForKey:@"riskPercent"];
-		newAdvisor.currentFirm = [i valueForKey:@"orgNm"];
+		newAdvisor.currentFirm = [[[i valueForKey:@"EmpHs"] lastObject] valueForKey:@"orgNm"];
 		newAdvisor.drp = [NSKeyedArchiver archivedDataWithRootObject:[i valueForKey:@"DRP"]];
 		newAdvisor.workHistory = [NSKeyedArchiver archivedDataWithRootObject:[i valueForKey:@"EmpHs"]];
 		

@@ -22,12 +22,14 @@
 	
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-	
-	
 	ViewController *vc = [[ViewController alloc] init];
 	vc.managedObjectContext = self.managedObjectContext;
-	[self.window setRootViewController:vc];
+	
+	UINavigationController *navController=[[UINavigationController alloc] initWithRootViewController:vc];
+	[self.window setRootViewController:navController];
+	
+	[navController setNavigationBarHidden:YES];
+	
 	[self.window makeKeyAndVisible];
 	
 	return YES;

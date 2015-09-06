@@ -104,8 +104,8 @@ displayCountingLabel:(BOOL)displayCountingLabel
 
         _countingLabel = [[UICountingLabel alloc] initWithFrame:CGRectMake(0, 0, 100.0, 50.0)];
         [_countingLabel setTextAlignment:NSTextAlignmentCenter];
-        [_countingLabel setFont:[UIFont boldSystemFontOfSize:16.0f]];
-        [_countingLabel setTextColor:[UIColor grayColor]];
+        [_countingLabel setFont:[UIFont fontWithName:@"Panton-Thin" size:36]];
+        [_countingLabel setTextColor:[UIColor whiteColor]];
         [_countingLabel setBackgroundColor:[UIColor clearColor]];
         [_countingLabel setCenter:CGPointMake(self.frame.size.width/2.0f, self.frame.size.height/2.0f)];
         _countingLabel.method = UILabelCountingMethodEaseInOut;
