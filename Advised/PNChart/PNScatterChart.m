@@ -106,11 +106,11 @@
     _axisX_labels = [NSMutableArray array];
     _axisY_labels = [NSMutableArray array];
     
-    _descriptionTextColor = [UIColor blackColor];
-    _descriptionTextFont  = [UIFont fontWithName:@"Avenir-Medium" size:9.0];
-    _descriptionTextShadowColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
-    _descriptionTextShadowOffset =  CGSizeMake(0, 1);
-    _duration = 1.0;
+    _descriptionTextColor = [UIColor whiteColor];
+    _descriptionTextFont  = [UIFont fontWithName:@"Panton-Regular" size:9];
+    _descriptionTextShadowColor = [UIColor clearColor];
+    _descriptionTextShadowOffset =  CGSizeMake(0, 0);
+    _duration = 0.0;
     
 }
 

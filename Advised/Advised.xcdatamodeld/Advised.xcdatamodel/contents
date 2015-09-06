@@ -4,9 +4,11 @@
         <attribute name="currentFirm" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="drp" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="numFirms" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="riskPercent" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="riskValue" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="workHistory" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="yearsWorked" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="firms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Firm" inverseName="advisors" inverseEntity="Firm" syncable="YES"/>
     </entity>
     <entity name="Firm" representedClassName="Firm" syncable="YES">
@@ -14,7 +16,7 @@
         <relationship name="advisors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Advisor" inverseName="firms" inverseEntity="Advisor" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Advisor" positionX="-225" positionY="-0" width="128" height="150"/>
+        <element name="Advisor" positionX="-225" positionY="-0" width="128" height="180"/>
         <element name="Firm" positionX="-54" positionY="-9" width="128" height="75"/>
     </elements>
 </model>

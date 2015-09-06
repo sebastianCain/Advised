@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A48B8641B9B6BF20057F9C3 /* Advisor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A48B8611B9B6BF20057F9C3 /* Advisor.m */; };
-		0A48B8651B9B6BF20057F9C3 /* Firm.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A48B8631B9B6BF20057F9C3 /* Firm.m */; };
 		0A48B8671B9B833B0057F9C3 /* 100feed.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A48B8661B9B833B0057F9C3 /* 100feed.json */; };
 		0A48B86C1B9BC8280057F9C3 /* new100feed.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A48B86B1B9BC8280057F9C3 /* new100feed.json */; };
 		0A48B86F1B9BE09D0057F9C3 /* TimelineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A48B86E1B9BE09D0057F9C3 /* TimelineView.m */; };
@@ -21,6 +19,9 @@
 		0A48B88E1B9BE12F0057F9C3 /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A48B8811B9BE12F0057F9C3 /* NSArray+MASAdditions.m */; };
 		0A48B88F1B9BE12F0057F9C3 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A48B8841B9BE12F0057F9C3 /* NSLayoutConstraint+MASDebugAdditions.m */; };
 		0A48B8901B9BE12F0057F9C3 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A48B8861B9BE12F0057F9C3 /* View+MASAdditions.m */; };
+		0A48B8931B9BFEAE0057F9C3 /* UILabel+DrawAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A48B8921B9BFEAE0057F9C3 /* UILabel+DrawAnimation.m */; };
+		0A48B8981B9C08B10057F9C3 /* Firm.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A48B8951B9C08B10057F9C3 /* Firm.m */; };
+		0A48B8991B9C08B10057F9C3 /* Advisor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A48B8971B9C08B10057F9C3 /* Advisor.m */; };
 		0A98C9FD1B9A97A700F05E63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A98C9FC1B9A97A700F05E63 /* main.m */; };
 		0A98CA001B9A97A700F05E63 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A98C9FF1B9A97A700F05E63 /* AppDelegate.m */; };
 		0A98CA031B9A97A700F05E63 /* Advised.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A98CA011B9A97A700F05E63 /* Advised.xcdatamodeld */; };
@@ -65,10 +66,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0A48B8601B9B6BF20057F9C3 /* Advisor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Advisor.h; sourceTree = "<group>"; };
-		0A48B8611B9B6BF20057F9C3 /* Advisor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Advisor.m; sourceTree = "<group>"; };
-		0A48B8621B9B6BF20057F9C3 /* Firm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Firm.h; sourceTree = "<group>"; };
-		0A48B8631B9B6BF20057F9C3 /* Firm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Firm.m; sourceTree = "<group>"; };
 		0A48B8661B9B833B0057F9C3 /* 100feed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 100feed.json; sourceTree = "<group>"; };
 		0A48B86B1B9BC8280057F9C3 /* new100feed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = new100feed.json; sourceTree = "<group>"; };
 		0A48B86D1B9BE09D0057F9C3 /* TimelineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimelineView.h; sourceTree = "<group>"; };
@@ -96,6 +93,12 @@
 		0A48B8851B9BE12F0057F9C3 /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
 		0A48B8861B9BE12F0057F9C3 /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
 		0A48B8871B9BE12F0057F9C3 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		0A48B8911B9BFEAE0057F9C3 /* UILabel+DrawAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+DrawAnimation.h"; sourceTree = "<group>"; };
+		0A48B8921B9BFEAE0057F9C3 /* UILabel+DrawAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+DrawAnimation.m"; sourceTree = "<group>"; };
+		0A48B8941B9C08B10057F9C3 /* Firm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Firm.h; sourceTree = "<group>"; };
+		0A48B8951B9C08B10057F9C3 /* Firm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Firm.m; sourceTree = "<group>"; };
+		0A48B8961B9C08B10057F9C3 /* Advisor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Advisor.h; sourceTree = "<group>"; };
+		0A48B8971B9C08B10057F9C3 /* Advisor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Advisor.m; sourceTree = "<group>"; };
 		0A98C9F71B9A97A700F05E63 /* Advised.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Advised.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A98C9FB1B9A97A700F05E63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A98C9FC1B9A97A700F05E63 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -240,6 +243,8 @@
 				0A98CA0A1B9A97A700F05E63 /* Images.xcassets */,
 				0A98CA0C1B9A97A700F05E63 /* LaunchScreen.xib */,
 				0A98CA011B9A97A700F05E63 /* Advised.xcdatamodeld */,
+				0A48B8911B9BFEAE0057F9C3 /* UILabel+DrawAnimation.h */,
+				0A48B8921B9BFEAE0057F9C3 /* UILabel+DrawAnimation.m */,
 				0A48B8701B9BE12F0057F9C3 /* Masonry */,
 				0A98CA721B9B51B100F05E63 /* PNChart */,
 				0A98CA321B9A9CC700F05E63 /* Panton */,
@@ -248,12 +253,12 @@
 				0A98CAA91B9B567F00F05E63 /* UICountingLabel.m */,
 				0A48B8661B9B833B0057F9C3 /* 100feed.json */,
 				0A48B86B1B9BC8280057F9C3 /* new100feed.json */,
-				0A48B8601B9B6BF20057F9C3 /* Advisor.h */,
-				0A48B8611B9B6BF20057F9C3 /* Advisor.m */,
-				0A48B8621B9B6BF20057F9C3 /* Firm.h */,
-				0A48B8631B9B6BF20057F9C3 /* Firm.m */,
 				0A48B86D1B9BE09D0057F9C3 /* TimelineView.h */,
 				0A48B86E1B9BE09D0057F9C3 /* TimelineView.m */,
+				0A48B8941B9C08B10057F9C3 /* Firm.h */,
+				0A48B8951B9C08B10057F9C3 /* Firm.m */,
+				0A48B8961B9C08B10057F9C3 /* Advisor.h */,
+				0A48B8971B9C08B10057F9C3 /* Advisor.m */,
 			);
 			path = Advised;
 			sourceTree = "<group>";
@@ -441,6 +446,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A48B8991B9C08B10057F9C3 /* Advisor.m in Sources */,
 				0A98CA291B9A97D000F05E63 /* GradientView.m in Sources */,
 				0A48B86F1B9BE09D0057F9C3 /* TimelineView.m in Sources */,
 				0A98CAA41B9B51B100F05E63 /* PNScatterChartDataItem.m in Sources */,
@@ -456,16 +462,16 @@
 				0A48B88A1B9BE12F0057F9C3 /* MASConstraintMaker.m in Sources */,
 				0A48B8901B9BE12F0057F9C3 /* View+MASAdditions.m in Sources */,
 				0A48B88F1B9BE12F0057F9C3 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
-				0A48B8651B9B6BF20057F9C3 /* Firm.m in Sources */,
+				0A48B8981B9C08B10057F9C3 /* Firm.m in Sources */,
 				0A48B8891B9BE12F0057F9C3 /* MASConstraint.m in Sources */,
 				0A98CA9F1B9B51B100F05E63 /* PNPieChartDataItem.m in Sources */,
 				0A48B88D1B9BE12F0057F9C3 /* MASViewConstraint.m in Sources */,
 				0A98CA031B9A97A700F05E63 /* Advised.xcdatamodeld in Sources */,
-				0A48B8641B9B6BF20057F9C3 /* Advisor.m in Sources */,
 				0A98CA9A1B9B51B100F05E63 /* PNGenericChart.m in Sources */,
 				0A98CAA21B9B51B100F05E63 /* PNScatterChart.m in Sources */,
 				0A98CA951B9B51B100F05E63 /* PNBar.m in Sources */,
 				0A98CA9E1B9B51B100F05E63 /* PNPieChart.m in Sources */,
+				0A48B8931B9BFEAE0057F9C3 /* UILabel+DrawAnimation.m in Sources */,
 				0A98CA9B1B9B51B100F05E63 /* PNLineChart.m in Sources */,
 				0A48B88C1B9BE12F0057F9C3 /* MASViewAttribute.m in Sources */,
 				0A48B88B1B9BE12F0057F9C3 /* MASLayoutConstraint.m in Sources */,

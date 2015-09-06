@@ -72,6 +72,53 @@
 	[self loadAdvisors];
 	[self loadTrends];
 	
+	
+	//+++++++++++++++++++++++++++++++++++++++ SCATTER PLOT
+	
+	self.scatterPlot = [[PNScatterChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH /6.0 - 30, 135, 280, 200)];
+	[self.scatterPlot setAxisXWithMinimumValue:5 andMaxValue:45 toTicks:10];
+	[self.scatterPlot setAxisYWithMinimumValue:1 andMaxValue:10 toTicks:10];
+	
+	NSArray* data01Array = [self getScatterData];
+	PNScatterChartData *data01 = [PNScatterChartData new];
+	data01.strokeColor = [UIColor clearColor];
+	data01.fillColor = [UIColor whiteColor];
+	data01.size = 1;
+	data01.itemCount = [[data01Array objectAtIndex:0] count];
+	data01.inflexionPointStyle = PNScatterChartPointStyleCircle;
+	__block NSMutableArray *XAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:0]];
+	__block NSMutableArray *YAr1 = [NSMutableArray arrayWithArray:[data01Array objectAtIndex:1]];
+	data01.getData = ^(NSUInteger index) {
+		CGFloat xValue = [[XAr1 objectAtIndex:index] floatValue];
+		CGFloat yValue = [[YAr1 objectAtIndex:index] floatValue];
+		return [PNScatterChartDataItem dataItemWithX:xValue AndWithY:yValue];
+	};
+	
+	[self.scatterPlot setup];
+	self.scatterPlot.chartData = @[data01];
+	/***
+	 this is for drawing line to compare
+	 CGPoint start = CGPointMake(20, 35);
+	 CGPoint end = CGPointMake(80, 45);
+	 [scatterChart drawLineFromPoint:start ToPoint:end WithLineWith:2 AndWithColor:PNBlack];
+	 ***/
+	
+	
+}
+
+-(NSArray *)getScatterData {
+	NSMutableArray *x = [[NSMutableArray alloc]init];
+	NSMutableArray *y = [[NSMutableArray alloc]init];
+	
+	for (Advisor *a in self.fetchedResultsController.fetchedObjects) {
+		if (a.yearsWorked != nil){
+			[x addObject:a.yearsWorked];
+		}
+		if (a.numFirms != nil) {
+			[y addObject:a.numFirms];
+		}
+	}
+	return @[x, y];
 }
 
 #pragma mark - Advisors
@@ -145,6 +192,7 @@
 	DetailViewController *dvc = [[DetailViewController alloc]init];
 	dvc.advisor = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	dvc.index = indexPath.row;
+	dvc.scatterPlot = self.scatterPlot;
 	[self.advisorsTableView deselectRowAtIndexPath:indexPath animated:YES];
 	[self.navigationController pushViewController:dvc animated:YES];
 }
@@ -216,7 +264,8 @@
 		newAdvisor.currentFirm = [[[i valueForKey:@"EmpHs"] lastObject] valueForKey:@"orgNm"];
 		newAdvisor.drp = [NSKeyedArchiver archivedDataWithRootObject:[i valueForKey:@"DRP"]];
 		newAdvisor.workHistory = [NSKeyedArchiver archivedDataWithRootObject:[i valueForKey:@"EmpHs"]];
-		
+		newAdvisor.numFirms = [i valueForKey:@"numFirms"];
+		newAdvisor.yearsWorked = [i valueForKey:@"yearsWorked"];
 	}
 	
 	[self.managedObjectContext save:nil];

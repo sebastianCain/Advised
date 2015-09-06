@@ -23,5 +23,7 @@
 @property UIView *trends;
 @property UIView *trendsScrollView;
 
+@property PNScatterChart *scatterPlot;
+
 @end
 

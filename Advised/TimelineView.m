@@ -18,8 +18,8 @@ const float BETTWEEN_LABEL_OFFSET = 20;
 const float LINE_WIDTH = 1.0;
 const float CIRCLE_RADIUS = 3.0;
 const float INITIAL_PROGRESS_CONTAINER_WIDTH = 20.0;
-const float PROGRESS_VIEW_CONTAINER_LEFT = 51.0;
-const float VIEW_WIDTH = 225.0;
+const float PROGRESS_VIEW_CONTAINER_LEFT = 80;
+const float VIEW_WIDTH = 320;
 
 @interface TimelineView () {
 	BOOL didStopAnimation;
@@ -110,7 +110,7 @@ const float VIEW_WIDTH = 225.0;
 		
 		[label setText:timeDescription];
 		label.numberOfLines = 2;
-		label.textColor = i < currentStatus ? [UIColor blackColor] : [UIColor grayColor];
+		label.textColor = i < currentStatus ? [UIColor blackColor] : [UIColor whiteColor];
 		label.textAlignment = NSTextAlignmentRight;
 		label.lineBreakMode = NSLineBreakByWordWrapping;
 		[label setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:13.0]];
@@ -150,7 +150,7 @@ const float VIEW_WIDTH = 225.0;
 		UILabel *label = [[UILabel alloc] init];
 		[label setText:timeDescription];
 		label.numberOfLines = 0;
-		label.textColor = i < currentStatus ? [UIColor whiteColor] : [UIColor whiteColor];
+		label.textColor = i < currentStatus ? [UIColor blackColor] : [UIColor whiteColor];
 		label.textAlignment = NSTextAlignmentLeft;
 		label.lineBreakMode = NSLineBreakByWordWrapping;
 		[label setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:13.0]];

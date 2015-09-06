@@ -2,7 +2,7 @@
 //  Advisor.m
 //  
 //
-//  Created by Sebastian Cain on 9/5/15.
+//  Created by Sebastian Cain on 9/6/15.
 //
 //
 
@@ -18,6 +18,8 @@
 @dynamic workHistory;
 @dynamic riskPercent;
 @dynamic drp;
+@dynamic numFirms;
+@dynamic yearsWorked;
 @dynamic firms;
 
 @end

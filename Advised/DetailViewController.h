@@ -10,13 +10,18 @@
 #import "UniversalHeader.h"
 #import "Advisor.h"
 #import "TimelineView.h"
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UIViewController <UIScrollViewDelegate, PNChartDelegate>
 
 @property int index;
 @property Advisor *advisor;
 
 @property UIScrollView *content;
-@property BOOL left;
+@property NSMutableArray *conversation;
+@property BOOL firstLineHasAnimated;
+@property BOOL secondLineHasAnimated;
+@property BOOL thirdLineHasAnimated;
+@property BOOL fouthLineHasAnimated;
+@property PNScatterChart *scatterPlot;
 
 
 @end

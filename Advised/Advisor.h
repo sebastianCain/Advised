@@ -2,7 +2,7 @@
 //  Advisor.h
 //  
 //
-//  Created by Sebastian Cain on 9/5/15.
+//  Created by Sebastian Cain on 9/6/15.
 //
 //
 
@@ -19,6 +19,8 @@
 @property (nonatomic, retain) id workHistory;
 @property (nonatomic, retain) NSNumber * riskPercent;
 @property (nonatomic, retain) id drp;
+@property (nonatomic, retain) NSNumber * numFirms;
+@property (nonatomic, retain) NSNumber * yearsWorked;
 @property (nonatomic, retain) NSSet *firms;
 @end
 
