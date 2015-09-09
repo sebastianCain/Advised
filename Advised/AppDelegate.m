@@ -29,6 +29,7 @@
 	[self.window setRootViewController:navController];
 	
 	[navController setNavigationBarHidden:YES];
+    [navController.interactivePopGestureRecognizer setEnabled:YES];
 	
 	[self.window makeKeyAndVisible];
 	

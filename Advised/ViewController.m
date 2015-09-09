@@ -48,6 +48,7 @@
 	[self.view addSubview:self.resultSearchController.searchBar];
 //	self.advisorsTableView.tableHeaderView = self.resultSearchController.searchBar;
 	[self.advisorsTableView reloadData];
+    [self.firmsTableView reloadData];
 	[self.advisorsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 
 	
@@ -194,7 +195,7 @@
 		[name setTextAlignment:NSTextAlignmentLeft];
 		[cell addSubview:name];
 		
-		UILabel *risk = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, cell.frame.size.width-80, 60)];
+		UILabel *risk = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, cell.frame.size.width-40, 60)];
 		[risk setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:13]];
 		NSString *riskText;
 		if ([advisorObject.riskPercent floatValue] < .25) {
@@ -228,7 +229,7 @@
 		[name setTextAlignment:NSTextAlignmentLeft];
 		[cell addSubview:name];
 		
-		UILabel *risk = [[UILabel alloc]initWithFrame:CGRectMake(45, 0, cell.frame.size.width-80, 60)];
+		UILabel *risk = [[UILabel alloc]initWithFrame:CGRectMake(45, 0, cell.frame.size.width-40, 60)];
 		[risk setFont:[UIFont fontWithName:@"Panton-ExtraLight" size:12]];
 		NSString *riskText;
 		if ([[firm valueForKey:@"avgRisk"] floatValue] < .25) {
@@ -407,6 +408,7 @@
 	NSLog(@"finished saving");
 	
 	[self.advisorsTableView reloadData];
+    
 }
 
 #pragma mark - Trends
@@ -442,7 +444,7 @@
 		NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"self contains[cd] %@", searchController.searchBar.text];
 		NSArray *array = [self.firmNames filteredArrayUsingPredicate:searchPredicate];
 		self.filteredResults = [NSMutableArray arrayWithArray:array];
-		[self.advisorsTableView reloadData];
+		[self.firmsTableView reloadData];
 	}
 	
 }
